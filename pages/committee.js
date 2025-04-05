@@ -1,9 +1,17 @@
 import Nav from '../components/Nav';
 
-export default function Committee({ members }) {
+export default function Committee() {
+  // Hard-coded data
+  const members = [
+    { role: 'Treasurer',   name: 'Alice Smith' },
+    { role: 'Secretary',   name: 'Bob Johnson' },
+    { role: 'Chairperson', name: 'Carol Lee' },
+    { role: 'Member',      name: 'David Wong' },
+  ];
+
   return (
     <>
-      <Nav/>
+      <Nav />
       <main className="p-8">
         <h1 className="text-2xl font-semibold mb-4">Strata Committee</h1>
         <table className="table-auto w-full border-collapse">
@@ -14,8 +22,8 @@ export default function Committee({ members }) {
             </tr>
           </thead>
           <tbody>
-            {members.map((m,i) => (
-              <tr key={i} className={i%2 ? 'bg-gray-50' : ''}>
+            {members.map((m, i) => (
+              <tr key={i} className={i % 2 ? 'bg-gray-50' : ''}>
                 <td className="border px-4 py-2">{m.role}</td>
                 <td className="border px-4 py-2">{m.name}</td>
               </tr>
@@ -25,10 +33,4 @@ export default function Committee({ members }) {
       </main>
     </>
   );
-}
-
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/committee`);
-  const members = await res.json();
-  return { props: { members } };
 }

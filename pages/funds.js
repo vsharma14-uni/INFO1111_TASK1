@@ -1,4 +1,4 @@
-import Nav from '../components/Nav'
+import Nav from '../components/Nav';
 
 export default function Funds() {
   return (
@@ -18,5 +18,5 @@ export default function Funds() {
         </div>
       </main>
     </>
-  )
+  );
 }
