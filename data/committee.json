@@ -1,0 +1,18 @@
+[
+    {
+        "role": "Treasurer",
+        "name": "Alice Smith"
+    },
+    {
+        "role": "Secretary",
+        "name": "Bob Johnson"
+    },
+    {
+        "role": "Chairperson",
+        "name": "Carol Lee"
+    },
+    {
+        "role": "Member",
+        "name": "David Wong"
+    }
+]
