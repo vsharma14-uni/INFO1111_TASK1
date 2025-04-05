@@ -1,4 +1,8 @@
+// pages/api/levies.js
 import levies from '../../data/levies.json';
-export default (req, res) => {
+
+const leviesHandler = (req, res) => {
   res.status(200).json(levies);
 };
+
+export default leviesHandler;
