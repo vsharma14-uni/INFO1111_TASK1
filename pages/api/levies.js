@@ -1,4 +1,3 @@
-// pages/api/levies.js
 import levies from '../../data/levies.json';
 
 const leviesHandler = (req, res) => {
