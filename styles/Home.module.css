@@ -1,0 +1,22 @@
+.heroContainer {
+    /* Fill the entire main area */
+    flex: 1;
+    position: relative;
+  
+    /* Display the background image so it covers the container */
+    background: url('/images/landing.jpg') center center / cover no-repeat;
+  }
+  
+  /* Overlay text in the center of .heroContainer */
+  .overlayTitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 3rem;
+    text-align: center;
+    /* Add text-shadow if desired for better contrast, e.g.: */
+    /* text-shadow: 1px 1px 4px rgba(255,255,255,0.8); */
+  }
+  

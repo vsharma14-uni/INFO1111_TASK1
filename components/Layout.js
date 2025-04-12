@@ -26,3 +26,4 @@ export default function Layout({ children }) {
     </div>
   );
 }
+// styles/Layout.module.css
