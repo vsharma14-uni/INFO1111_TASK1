@@ -1,19 +1,16 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "next.config.js", "use": "@vercel/next" }
-  ],
-  "routes": [
-    { "src": "/api/edge/(.*)", "dest": "/api/edge/$1" },
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ],
-  "regions": ["iad1", "sin1"],
   "functions": {
     "api/redirect.js": {
       "maxDuration": 10,
       "memory": 128,
       "schedule": "0 0 * * *"
     }
-  }
+  },
+  "routes": [
+    { "src": "/api/edge/(.*)", "dest": "/api/edge/$1" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ],
+  "regions": ["iad1", "sin1"]
 }
