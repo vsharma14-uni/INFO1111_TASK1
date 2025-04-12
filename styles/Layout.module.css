@@ -1,0 +1,31 @@
+.layoutContainer {
+    /* Enables vertical flex layout and ensures container fills the viewport */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    margin: 0; 
+  }
+  
+  .header {
+    /* Header won't shrink; remains at top */
+    flex-shrink: 0;
+    background-color: #0070f3;
+    color: #fff;
+    padding: 1rem;
+  }
+  
+  .main {
+    /* Expand to fill leftover space; pushes footer down */
+    flex: 1;        
+    padding: 2rem;
+    background-color: #fff;
+  }
+  
+  .footer {
+    /* Footer won't shrink; remains at bottom */
+    flex-shrink: 0; 
+    background-color: #e0e0e0;
+    text-align: center;
+    padding: 1rem;
+  }
+  
