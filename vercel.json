@@ -1,11 +1,9 @@
 {
   "version": 2,
-  "regions": ["iad1", "sin1"],
   "functions": {
     "pages/api/redirect.js": {
       "maxDuration": 10,
-      "memory": 128,
-      "schedule": "0 0 * * *"
+      "memory": 128
     }
   },
   "routes": [
