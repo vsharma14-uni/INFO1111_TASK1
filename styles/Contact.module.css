@@ -1,0 +1,72 @@
+.contactContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  /* Left column: ensures the image is vertically centered */
+  .imageContainer {
+    flex: 1;
+    min-width: 300px;
+  
+    /* Make the container itself a flex box so we can center the image vertically */
+    display: flex;
+    align-items: center;   /* Vertically center the image */
+    justify-content: flex-start; /* Keep it left-aligned horizontally */
+  }
+  
+  .contactImage {
+    border-radius: 8px; /* Rounds the corners of the image */
+  }
+  
+  /* Right column: contact info + form remains as-is */
+  .infoContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .contactDetails {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .contactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .contactForm label {
+    font-weight: 500;
+  }
+  
+  .contactForm input,
+  .contactForm textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .contactForm button {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .contactForm button:hover {
+    background-color: #0059b2;
+  }
+  
