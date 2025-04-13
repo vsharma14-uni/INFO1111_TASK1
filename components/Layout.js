@@ -1,4 +1,3 @@
-// components/Layout.js (example)
 import Link from 'next/link';
 import styles from '../styles/Layout.module.css';
 
@@ -14,7 +13,7 @@ export default function Layout({ children }) {
             <li><Link href="/contact">Contact</Link></li>
             <li><Link href="/form">Submit a Request</Link></li>
             <li><Link href="/faq">FAQ</Link></li>
-            {/* Add the new Events link here */}
+            {}
             <li><Link href="/events">Events</Link></li>
           </ul>
         </nav>

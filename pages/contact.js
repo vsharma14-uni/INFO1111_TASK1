@@ -15,7 +15,6 @@ export default function Contact() {
     e.preventDefault();
     // Example action: alert or console.log
     alert(`Thank you, ${formData.name}. We have received your query!`);
-    // Reset form (optional)
     setFormData({ name: '', email: '', message: '' });
   };
 
