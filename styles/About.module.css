@@ -1,0 +1,20 @@
+/* styles/About.module.css */
+
+.aboutContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.6;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  
+  .aboutContainer h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #0070f3;
+  }
+  
+  .aboutContainer p {
+    margin-bottom: 1rem;
+  }
+  
