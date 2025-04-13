@@ -1,20 +1,36 @@
 /* styles/About.module.css */
 
 .aboutContainer {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    line-height: 1.6;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-  }
-  
-  .aboutContainer h2 {
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    color: #0070f3;
-  }
-  
-  .aboutContainer p {
-    margin-bottom: 1rem;
-  }
-  
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Example: About.module.css */
+
+.hero {
+  background: url('/images/team.png') center/cover no-repeat;
+  height: 250px;
+  position: relative; /* so child absolutely positioned elements are relative to this container */
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.heroTitle {
+  position: absolute;             /* overlay text absolutely within .hero */
+  left: 50%;                      /* horizontally center */
+  top: 10%;                       /* shift upward (less than 50% = above center) */
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+
+/* Main Content Styling */
+.content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  color: #333;
+}
