@@ -21,7 +21,7 @@ export default function Contact() {
   return (
     <Layout>
       <div className={styles.contactContainer}>
-        {/* LEFT COLUMN: Image */}
+        {/* LEFT COLUMN: image */}
         <div className={styles.imageContainer}>
           <Image
             src="/images/contactus.jpg"
