@@ -1,0 +1,40 @@
+/* styles/Faq.module.css */
+
+.faqContainer {
+  padding: 2rem;
+  text-align: center; /* Centers the heading */
+}
+
+/* The fixed-width container for all FAQ items */
+.faqList {
+  width: 800px;             /* Fixed width for the FAQ section */
+  margin: 2rem auto 0 auto;  /* Centers the container horizontally */
+}
+
+/* Individual FAQ item styling */
+.faqItem {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* The clickable FAQ question */
+.faqQuestion {
+  background-color: #f5f5f5;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: left;
+  font-size: 1.5rem; /* Larger font size for prominence */
+}
+
+/* The answer, revealed when the item is open */
+.faqAnswer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #ddd;
+  text-align: left;
+  background-color: #fff;
+  font-size: 1.4rem; /* Consistent with the question font size */
+  line-height: 1.6;
+}
