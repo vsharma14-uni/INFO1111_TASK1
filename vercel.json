@@ -10,8 +10,11 @@
     }
   },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)\\.php$", "dest": "/api/$1.php" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/public/$1" }
-  ]
+  ],
+  "env": {
+    "NOW_PHP_DEBUG": "1"
+  }
 }
