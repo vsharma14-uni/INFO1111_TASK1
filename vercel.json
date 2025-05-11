@@ -4,10 +4,14 @@
     "pages/api/redirect.js": {
       "maxDuration": 10,
       "memory": 128
+    },
+    "api/*.php": {
+      "runtime": "vercel-php@0.6.0"
     }
   },
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "/(.*)\\.php$", "dest": "/api/$1.php" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }

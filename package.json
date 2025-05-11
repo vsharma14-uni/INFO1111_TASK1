@@ -1,14 +1,18 @@
 {
-  "name": "strata-management-site",
+  "name": "strata-management-system",
   "version": "1.0.0",
+  "description": "Strata Management System using Vercel and PHP",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "start": "vercel start",
+    "deploy": "vercel deploy"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "@vercel/php": "^0.6.0",
+    "mysql2": "^3.0.0",
+    "tailwindcss": "^3.3.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
   }
 }
