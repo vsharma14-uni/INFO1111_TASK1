@@ -2,7 +2,7 @@
 session_start();
 require_once 'config/database.php';
 
-// Set cookie for session management
+// Set cooie for session management
 if (!isset($_COOKIE['user_session']) && isset($_SESSION['user_id'])) {
     setcookie('user_session', session_id(), time() + 3600, '/');
 }
