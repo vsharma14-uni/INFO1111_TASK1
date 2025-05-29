@@ -19,11 +19,19 @@ export default function PhpForm() {
                 },
                 body: JSON.stringify(formData)
             });
+            
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
             const data = await res.json();
             setResponse(data);
         } catch (error) {
             console.error('Error:', error);
-            setResponse({ status: 'error', message: 'Failed to submit form' });
+            setResponse({ 
+                status: 'error', 
+                message: 'Failed to submit form: ' + error.message 
+            });
         }
     };
 
