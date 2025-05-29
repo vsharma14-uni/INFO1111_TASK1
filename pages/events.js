@@ -1,6 +1,7 @@
 import Layout from '../components/Layout';
 import styles from '../styles/Events.module.css';
 
+// Fictional events list
 const events = [
   {
     id: 1,

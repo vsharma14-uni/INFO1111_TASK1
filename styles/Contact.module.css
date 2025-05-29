@@ -9,10 +9,12 @@
     border-radius: 8px;
   }
   
+  /* Left column: ensures the image is vertically centered */
   .imageContainer {
     flex: 1;
     min-width: 300px;
   
+    /* Make the container itself a flex box so we can center the image vertically */
     display: flex;
     align-items: center;   /* Vertically center the image */
     justify-content: flex-start; /* Keep it left-aligned horizontally */
@@ -22,6 +24,7 @@
     border-radius: 8px; /* Rounds the corners of the image */
   }
   
+  /* Right column: contact info + form remains as-is */
   .infoContainer {
     flex: 1;
     display: flex;

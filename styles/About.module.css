@@ -1,3 +1,4 @@
+/* styles/About.module.css */
 
 .aboutContainer {
   max-width: 900px;
@@ -5,19 +6,20 @@
   padding: 2rem;
 }
 
+/* Example: About.module.css */
 
 .hero {
   background: url('/images/team.png') center/cover no-repeat;
   height: 250px;
-  position: relative; 
+  position: relative; /* so child absolutely positioned elements are relative to this container */
   border-radius: 8px;
   margin-bottom: 2rem;
 }
 
 .heroTitle {
-  position: absolute;             
-  left: 50%;                 
-  top: 10%;                     
+  position: absolute;             /* overlay text absolutely within .hero */
+  left: 50%;                      /* horizontally center */
+  top: 10%;                       /* shift upward (less than 50% = above center) */
   transform: translate(-50%, -50%);
   color: #fff;
   font-size: 2.5rem;
@@ -25,6 +27,7 @@
 }
 
 
+/* Main Content Styling */
 .content p {
   margin-bottom: 1.5rem;
   line-height: 1.6;
