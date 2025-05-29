@@ -5,13 +5,14 @@
       "maxDuration": 10,
       "memory": 128
     },
-    "api/*.php": {
-      "runtime": "vercel-php@0.6.0"
+    "api/**/*.php": {
+      "runtime": "vercel-php@1.0.0"
     }
   },
+  "rewrites": [
+    { "source": "/:path*.php", "destination": "/api/:path*.php" }
+  ],
   "routes": [
-    { "src": "/(.*)\\.php$", "dest": "/api/$1.php" },
-    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ],
   "env": {
