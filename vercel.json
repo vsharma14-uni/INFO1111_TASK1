@@ -7,11 +7,12 @@
     },
     {
       "src": "api/**/*.php",
-      "use": "vercel-php@0.6.0",
+      "use": "vercel-php@0.4.0",
       "config": {
         "php.ini": {
           "extension_dir": "/var/task/php/extensions",
-          "extension": ["json"]
+          "extension": ["json"],
+          "variables_order": "EGPCS"
         }
       }
     }
