@@ -13,7 +13,7 @@ export default function MaintenanceForm() {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
 
-    const API_URL = 'http://localhost:8000/maintenance.php';
+    const API_URL = '/api/maintenance';
 
     useEffect(() => {
         fetchRequests();

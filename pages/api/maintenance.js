@@ -1,30 +1,37 @@
-import dbConnect from '../../lib/mongodb';
-import MaintenanceRequest from '../../models/MaintenanceRequest';
+import { connectToDatabase } from '../../lib/mongodb';
 
 export default async function handler(req, res) {
-    await dbConnect();
+  if (req.method === 'POST') {
+    try {
+      const { db } = await connectToDatabase();
+      const data = req.body;
+      
+      const result = await db.collection('maintenance_requests').insertOne({
+        ...data,
+        timestamp: new Date(),
+        status: 'pending'
+      });
 
-    switch (req.method) {
-        case 'GET':
-            try {
-                const requests = await MaintenanceRequest.find({})
-                    .sort({ submission_date: -1 });
-                res.status(200).json({ data: requests });
-            } catch (error) {
-                res.status(500).json({ error: 'Failed to fetch maintenance requests' });
-            }
-            break;
-
-        case 'POST':
-            try {
-                const request = await MaintenanceRequest.create(req.body);
-                res.status(201).json({ message: 'Request submitted successfully', data: request });
-            } catch (error) {
-                res.status(400).json({ error: error.message });
-            }
-            break;
-
-        default:
-            res.status(405).json({ error: 'Method not allowed' });
+      res.status(200).json({ success: true, id: result.insertedId });
+    } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).json({ error: 'Failed to save maintenance request' });
     }
+  } else if (req.method === 'GET') {
+    try {
+      const { db } = await connectToDatabase();
+      const requests = await db.collection('maintenance_requests')
+        .find({})
+        .sort({ timestamp: -1 })
+        .toArray();
+
+      res.status(200).json(requests);
+    } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).json({ error: 'Failed to fetch maintenance requests' });
+    }
+  } else {
+    res.setHeader('Allow', ['POST', 'GET']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
 } 
