@@ -1,7 +1,0 @@
-{
-  "runtime": "vercel-php@0.6.0",
-  "handler": "maintenance.php",
-  "config": {
-    "maxDuration": 60
-  }
-} 
