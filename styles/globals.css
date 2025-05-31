@@ -1,15 +1,17 @@
-/* Reset some default browser styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
 }
 
-/* Body styling */
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
 }
 
@@ -66,4 +68,208 @@ footer {
   padding: 1rem;
   background-color: #e0e0e0;
   border-radius: 4px;
+}
+
+/* Custom styles for form elements */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  ring-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Smooth transitions */
+.transition-shadow {
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Loading animation */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+/* Priority badge colors */
+.bg-red-100 { background-color: #fee2e2; }
+.bg-orange-100 { background-color: #ffedd5; }
+.bg-yellow-100 { background-color: #fef9c3; }
+.bg-green-100 { background-color: #dcfce7; }
+.bg-blue-100 { background-color: #dbeafe; }
+.bg-purple-100 { background-color: #f3e8ff; }
+
+/* Text colors */
+.text-red-800 { color: #991b1b; }
+.text-orange-800 { color: #9a3412; }
+.text-yellow-800 { color: #854d0e; }
+.text-green-800 { color: #166534; }
+.text-blue-800 { color: #1e40af; }
+.text-purple-800 { color: #6b21a8; }
+
+/* Form validation styles */
+input:invalid, textarea:invalid, select:invalid {
+  border-color: #ef4444;
+}
+
+input:invalid:focus, textarea:invalid:focus, select:invalid:focus {
+  ring-color: #ef4444;
+  border-color: #ef4444;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Form styles */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0051cc;
+}
+
+/* Success message */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Error message */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Request list styles */
+.request-list {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.request-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.request-title {
+  font-weight: bold;
+  color: #333;
+}
+
+.request-date {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.request-description {
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.request-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Priority badges */
+.priority {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+}
+
+.priority-low {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.priority-medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.priority-high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.priority-urgent {
+  background-color: #dc3545;
+  color: white;
 }

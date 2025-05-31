@@ -13,8 +13,8 @@ export default function Layout({ children }) {
             <li><Link href="/about">About</Link></li>
             <li><Link href="/contact">Contact</Link></li>
             <li><Link href="/form">Submit a Request</Link></li>
+            <li><Link href="/maintenance">Maintenance</Link></li>
             <li><Link href="/faq">FAQ</Link></li>
-            {/* Add the new Events link here */}
             <li><Link href="/events">Events</Link></li>
           </ul>
         </nav>
@@ -25,7 +25,7 @@ export default function Layout({ children }) {
       </main>
 
       <footer className={styles.footer}>
-        &copy; 2025 Vanshh Sharma. All rights reserved.
+        &copy; 2024 Vanshh Sharma. All rights reserved.
       </footer>
     </div>
   );

@@ -1,13 +1,31 @@
 {
   "version": 2,
-  "functions": {
-    "pages/api/redirect.js": {
-      "maxDuration": 10,
-      "memory": 128
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "api/php/*.php",
+      "use": "vercel-php@0.6.0"
     }
-  },
+  ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
+    {
+      "src": "/php/(.*)",
+      "dest": "/api/php/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "NOW_PHP_DEBUG": "1"
+  },
+  "functions": {
+    "api/php/*.php": {
+      "runtime": "vercel-php@0.6.0"
+    }
+  }
 }
