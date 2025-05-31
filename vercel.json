@@ -7,12 +7,12 @@
     },
     {
       "src": "api/**/*.php",
-      "use": "vercel-php@0.4.0",
+      "use": "vercel-php@0.3.2",
       "config": {
         "php.ini": "./api/php.ini",
         "runtime": {
           "extensions": ["json"],
-          "php_version": "7.4"
+          "php_version": "7.2"
         }
       }
     }
