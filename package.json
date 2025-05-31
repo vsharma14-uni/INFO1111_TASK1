@@ -7,17 +7,15 @@
     "start": "next start"
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.10",
-    "autoprefixer": "^10.4.21",
-    "mongodb": "^6.16.0",
-    "mongoose": "^8.15.1",
-    "next": "latest",
-    "postcss": "^8.5.4",
-    "react": "latest",
-    "react-dom": "latest",
-    "tailwindcss": "^4.1.8"
-  },
-  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.4.17",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
+    "next": "^14.1.0",
+    "postcss": "^8.4.35",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.1",
     "vercel-php": "^0.6.0"
   }
 }
