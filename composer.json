@@ -1,4 +1,7 @@
 {
+    "name": "strata-management/api",
+    "description": "Strata Management API",
+    "type": "project",
     "require": {
         "php": "7.4.*",
         "ext-json": "*"
@@ -6,6 +9,9 @@
     "config": {
         "platform": {
             "php": "7.4.33"
-        }
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 } 

@@ -9,10 +9,10 @@
       "src": "api/**/*.php",
       "use": "vercel-php@0.4.0",
       "config": {
-        "php.ini": {
-          "extension_dir": "/var/task/php/extensions",
-          "extension": ["json"],
-          "variables_order": "EGPCS"
+        "php.ini": "./api/php.ini",
+        "runtime": {
+          "extensions": ["json"],
+          "php_version": "7.4"
         }
       }
     }
