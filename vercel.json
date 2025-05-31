@@ -1,13 +1,21 @@
 {
   "version": 2,
+  "functions": {
+    "api/*.php": {
+      "runtime": "@vercel/php@0.6.0"
+    }
+  },
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/next"
     },
     {
-      "src": "api/*.php",
-      "use": "vercel-php@0.3.2"
+      "src": ".vercel/php-runtime/build.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": ".vercel/php-runtime"
+      }
     }
   ],
   "routes": [
@@ -21,6 +29,6 @@
     }
   ],
   "env": {
-    "NOW_PHP_DEBUG": "1"
+    "VERCEL_PHP_RUNTIME": ".vercel/php-runtime"
   }
 }
