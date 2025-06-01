@@ -27,8 +27,10 @@ export default function MaintenanceForm() {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const text = await response.text();
-            const data = JSON.parse(text);
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to load maintenance requests');
+            }
             setRequests(data.data || []);
         } catch (err) {
             console.error('Fetch error:', err);
