@@ -1,22 +1,53 @@
-import { connectToDatabase } from '../../lib/mongodb';
-import UserProfile from '../../models/UserProfile';
+import { serialize } from 'cookie';
 
-export default async function handler(req, res) {
-    try {
-        const { db } = await connectToDatabase();
+// In-memory storage for demo purposes
+let profiles = [];
 
-        if (req.method === 'GET') {
-            const profiles = await db.collection('profiles')
-                .find({})
-                .toArray();
-            
-            res.status(200).json({ success: true, data: profiles });
-        } else {
-            res.setHeader('Allow', ['GET']);
-            res.status(405).end(`Method ${req.method} Not Allowed`);
+export default function handler(req, res) {
+    if (req.method === 'POST') {
+        const { name, unit, email, phone, moveInDate } = req.body;
+        
+        // Validate inputs
+        if (!name || !unit || !email) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Name, unit, and email are required'
+            });
         }
-    } catch (error) {
-        console.error('Database error:', error);
-        res.status(500).json({ error: 'Failed to fetch profiles' });
+
+        // Store profile
+        const profile = {
+            id: Date.now().toString(),
+            name,
+            unit,
+            email,
+            phone,
+            moveInDate,
+            createdAt: new Date().toISOString()
+        };
+        profiles.push(profile);
+
+        // Set cookie for last profile update
+        const cookieValue = new Date().toISOString();
+        res.setHeader('Set-Cookie', serialize('last_profile_update', cookieValue, {
+            path: '/',
+            maxAge: 30 * 24 * 60 * 60, // 30 days
+            httpOnly: true,
+        }));
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'Profile created successfully',
+            data: profile
+        });
     }
+
+    if (req.method === 'GET') {
+        return res.status(200).json({
+            status: 'success',
+            profiles: profiles
+        });
+    }
+
+    return res.status(405).json({ message: 'Method not allowed' });
 } 

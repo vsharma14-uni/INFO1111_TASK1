@@ -1,6 +1,7 @@
 // components/Layout.js (example)
 import Link from 'next/link';
 import styles from '../styles/Layout.module.css';
+import CookieConsent from './CookieConsent';
 
 export default function Layout({ children }) {
   return (
@@ -14,6 +15,8 @@ export default function Layout({ children }) {
             <li><Link href="/contact">Contact</Link></li>
             <li><Link href="/form">Submit a Request</Link></li>
             <li><Link href="/maintenance">Maintenance</Link></li>
+            <li><Link href="/profiles">Profiles</Link></li>
+            <li><Link href="/announcements">Announcements</Link></li>
             <li><Link href="/faq">FAQ</Link></li>
             <li><Link href="/events">Events</Link></li>
           </ul>
@@ -27,6 +30,8 @@ export default function Layout({ children }) {
       <footer className={styles.footer}>
         &copy; 2024 Vanshh Sharma. All rights reserved.
       </footer>
+
+      <CookieConsent />
     </div>
   );
 }
