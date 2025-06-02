@@ -1,41 +1,77 @@
-import { connectToDatabase } from '../../lib/mongodb';
+import { serialize } from 'cookie';
 
-export default async function handler(req, res) {
-  try {
-    const { db } = await connectToDatabase();
-    
-    if (req.method === 'POST') {
-      try {
-        const data = req.body;
-        const result = await db.collection('maintenance_requests').insertOne({
-          ...data,
-          timestamp: new Date(),
-          status: 'pending'
-        });
+// In-memory storage for demo purposes
+let maintenanceRequests = [];
 
-        res.status(200).json({ success: true, id: result.insertedId });
-      } catch (error) {
-        console.error('Database insert error:', error);
-        res.status(500).json({ error: 'Failed to save maintenance request' });
-      }
-    } else if (req.method === 'GET') {
-      try {
-        const requests = await db.collection('maintenance_requests')
-          .find({})
-          .sort({ timestamp: -1 })
-          .toArray();
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
+};
 
-        res.status(200).json({ success: true, data: requests });
-      } catch (error) {
-        console.error('Database fetch error:', error);
-        res.status(500).json({ error: 'Failed to fetch maintenance requests' });
-      }
-    } else {
-      res.setHeader('Allow', ['POST', 'GET']);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-  } catch (error) {
-    console.error('MongoDB connection error:', error);
-    res.status(500).json({ error: 'Database connection failed' });
+export default function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
   }
+
+  if (req.method === 'POST') {
+    const { unitNumber, description, priority, contactName, contactEmail } = req.body;
+    
+    // Validate inputs
+    if (!unitNumber || !description || !priority || !contactName || !contactEmail) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'All fields are required'
+      });
+    }
+
+    // Store maintenance request
+    const request = {
+      unitNumber,
+      description,
+      priority,
+      contactName,
+      contactEmail,
+      status: 'pending',
+      timestamp: new Date().toISOString(),
+      id: Date.now().toString()
+    };
+    maintenanceRequests.push(request);
+
+    // Set cookie for last submission
+    const cookieValue = new Date().toISOString();
+    res.setHeader('Set-Cookie', serialize('last_maintenance_request', cookieValue, {
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      httpOnly: true,
+    }));
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Maintenance request submitted successfully',
+      data: request
+    });
+  }
+
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      status: 'success',
+      requests: maintenanceRequests
+    });
+  }
+
+  res.setHeader('Allow', ['POST', 'GET']);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 } 

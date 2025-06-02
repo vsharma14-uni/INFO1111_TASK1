@@ -1,34 +1,13 @@
 {
   "version": 2,
-  "functions": {
-    "api/*.php": {
-      "runtime": "@vercel/php@0.6.0"
-    }
-  },
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/next"
-    },
-    {
-      "src": ".vercel/php-runtime/build.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": ".vercel/php-runtime"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
     }
   ],
   "env": {
-    "VERCEL_PHP_RUNTIME": ".vercel/php-runtime"
+    "MONGODB_URI": "@mongodb_uri",
+    "MONGODB_DB": "@mongodb_db"
   }
 }

@@ -1,40 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Strata Management System
 
-## Getting Started
+A modern web application for managing strata properties, built with Next.js, MongoDB, and PHP integration.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **PHP Integration**
+   - Contact form handling using PHP
+   - Session management for form submissions
+   - Cookie tracking for user interactions
+
+2. **Database Integration**
+   - MongoDB Atlas cloud database
+   - Maintenance request management
+   - Data persistence across sessions
+
+3. **Cookie Management**
+   - Tracking form submissions
+   - User session management
+   - Last submission timestamp storage
+
+## Technologies Used
+
+- Next.js 14
+- MongoDB Atlas
+- PHP 8+
+- TailwindCSS
+- js-cookie
+
+## Setup Instructions
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env.local` file with the following variables:
+   ```
+   MONGODB_URI=your_mongodb_connection_string
+   MONGODB_DB=your_database_name
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Project Structure
+
+```
+├── components/
+│   ├── ContactForm.js    # PHP-integrated contact form
+│   ├── MaintenanceForm.js # MongoDB-integrated maintenance form
+│   └── Navbar.js         # Navigation component
+├── pages/
+│   ├── api/
+│   │   ├── contact.php   # PHP API endpoint
+│   │   └── maintenance.js # Next.js API route
+│   ├── _app.js
+│   ├── index.js
+│   ├── contact.js
+│   └── maintenance.js
+└── lib/
+    └── mongodb.js        # MongoDB connection utility
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features Documentation
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### 1. PHP Integration
+The project demonstrates PHP integration through a contact form system that:
+- Handles form submissions via PHP
+- Stores submissions in PHP sessions
+- Sets cookies for tracking submission history
+- Provides a RESTful API endpoint
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### 2. Database Integration
+MongoDB integration is implemented for:
+- Storing maintenance requests
+- User data management
+- Real-time data updates
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### 3. Cookie Management
+The application uses cookies for:
+- Tracking form submissions
+- Maintaining user sessions
+- Storing user preferences
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Development Notes
 
-## Learn More
+- The PHP endpoint requires a PHP-enabled server
+- MongoDB connection uses the official MongoDB driver
+- Cookie management is handled using js-cookie library
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
