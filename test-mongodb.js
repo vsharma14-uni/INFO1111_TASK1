@@ -1,26 +1,33 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-require('dotenv').config({ path: '.env.local' });
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const uri = process.env.MONGODB_URI;
+// Load environment variables from .env.local
+dotenv.config({ path: '.env.local' });
+
+const MONGODB_URI = process.env.MONGODB_URI;
 
 async function testConnection() {
-    const client = new MongoClient(uri, {
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        }
-    });
-
+    console.log('Testing MongoDB connection...');
+    console.log('MongoDB URI:', MONGODB_URI ? 'URI is defined' : 'URI is missing');
+    
     try {
-        console.log('Attempting to connect to MongoDB...');
-        await client.connect();
-        await client.db("admin").command({ ping: 1 });
-        console.log("Successfully connected to MongoDB!");
+        await mongoose.connect(MONGODB_URI);
+        console.log('Successfully connected to MongoDB!');
+        
+        // Test creating a collection
+        const db = mongoose.connection.db;
+        await db.createCollection('test');
+        console.log('Successfully created test collection');
+        
+        // Clean up
+        await db.dropCollection('test');
+        console.log('Successfully cleaned up test collection');
+        
     } catch (error) {
         console.error('MongoDB connection error:', error);
     } finally {
-        await client.close();
+        await mongoose.disconnect();
+        console.log('Disconnected from MongoDB');
     }
 }
 

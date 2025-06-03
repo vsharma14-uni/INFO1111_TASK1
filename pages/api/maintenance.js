@@ -1,7 +1,5 @@
 import { serialize } from 'cookie';
-
-// In-memory storage for demo purposes
-let maintenanceRequests = [];
+import prisma from '../../lib/prisma';
 
 export const config = {
   api: {
@@ -11,7 +9,7 @@ export const config = {
   },
 };
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -27,49 +25,69 @@ export default function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { unitNumber, description, priority, contactName, contactEmail } = req.body;
-    
-    // Validate inputs
-    if (!unitNumber || !description || !priority || !contactName || !contactEmail) {
-      return res.status(400).json({
+    try {
+      const { unitNumber, description, priority, contactName, contactEmail } = req.body;
+      
+      // Validate inputs
+      if (!unitNumber || !description || !priority || !contactName || !contactEmail) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'All fields are required'
+        });
+      }
+
+      // Create maintenance request
+      const request = await prisma.maintenanceRequest.create({
+        data: {
+          unitNumber,
+          description,
+          priority,
+          contactName,
+          contactEmail
+        }
+      });
+
+      // Set cookie for last submission
+      const cookieValue = new Date().toISOString();
+      res.setHeader('Set-Cookie', serialize('last_maintenance_request', cookieValue, {
+        path: '/',
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+        httpOnly: true,
+      }));
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Maintenance request submitted successfully',
+        data: request
+      });
+    } catch (error) {
+      console.error('Error creating maintenance request:', error);
+      return res.status(500).json({
         status: 'error',
-        message: 'All fields are required'
+        message: 'Error creating maintenance request'
       });
     }
-
-    // Store maintenance request
-    const request = {
-      unitNumber,
-      description,
-      priority,
-      contactName,
-      contactEmail,
-      status: 'pending',
-      timestamp: new Date().toISOString(),
-      id: Date.now().toString()
-    };
-    maintenanceRequests.push(request);
-
-    // Set cookie for last submission
-    const cookieValue = new Date().toISOString();
-    res.setHeader('Set-Cookie', serialize('last_maintenance_request', cookieValue, {
-      path: '/',
-      maxAge: 30 * 24 * 60 * 60, // 30 days
-      httpOnly: true,
-    }));
-
-    return res.status(200).json({
-      status: 'success',
-      message: 'Maintenance request submitted successfully',
-      data: request
-    });
   }
 
   if (req.method === 'GET') {
-    return res.status(200).json({
-      status: 'success',
-      requests: maintenanceRequests
-    });
+    try {
+      const requests = await prisma.maintenanceRequest.findMany({
+        orderBy: {
+          createdAt: 'desc'
+        }
+      });
+
+      return res.status(200).json({
+        status: 'success',
+        requests
+      });
+    } catch (error) {
+      console.error('Error fetching maintenance requests:', error);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Error fetching maintenance requests'
+      });
+    }
   }
 
   res.setHeader('Allow', ['POST', 'GET']);

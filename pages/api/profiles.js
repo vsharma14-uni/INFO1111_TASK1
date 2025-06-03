@@ -1,52 +1,69 @@
 import { serialize } from 'cookie';
+import dbConnect from '../../lib/dbConnect';
+import Profile from '../../models/Profile';
 
-// In-memory storage for demo purposes
-let profiles = [];
+export default async function handler(req, res) {
+    await dbConnect();
 
-export default function handler(req, res) {
     if (req.method === 'POST') {
-        const { name, unit, email, phone, moveInDate } = req.body;
-        
-        // Validate inputs
-        if (!name || !unit || !email) {
-            return res.status(400).json({
+        try {
+            const { name, unit, email, phone, moveInDate } = req.body;
+            
+            // Validate inputs
+            if (!name || !unit || !email) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Name, unit, and email are required'
+                });
+            }
+
+            // Create profile
+            const profile = await Profile.create({
+                name,
+                unit,
+                email,
+                phone,
+                moveInDate,
+            });
+
+            // Set cookie for last profile update
+            const cookieValue = new Date().toISOString();
+            res.setHeader('Set-Cookie', serialize('last_profile_update', cookieValue, {
+                path: '/',
+                maxAge: 30 * 24 * 60 * 60, // 30 days
+                httpOnly: true,
+            }));
+
+            return res.status(201).json({
+                status: 'success',
+                message: 'Profile created successfully',
+                data: profile
+            });
+        } catch (error) {
+            console.error('Profile creation error:', error);
+            return res.status(500).json({
                 status: 'error',
-                message: 'Name, unit, and email are required'
+                message: 'Error creating profile'
             });
         }
-
-        // Store profile
-        const profile = {
-            id: Date.now().toString(),
-            name,
-            unit,
-            email,
-            phone,
-            moveInDate,
-            createdAt: new Date().toISOString()
-        };
-        profiles.push(profile);
-
-        // Set cookie for last profile update
-        const cookieValue = new Date().toISOString();
-        res.setHeader('Set-Cookie', serialize('last_profile_update', cookieValue, {
-            path: '/',
-            maxAge: 30 * 24 * 60 * 60, // 30 days
-            httpOnly: true,
-        }));
-
-        return res.status(200).json({
-            status: 'success',
-            message: 'Profile created successfully',
-            data: profile
-        });
     }
 
     if (req.method === 'GET') {
-        return res.status(200).json({
-            status: 'success',
-            profiles: profiles
-        });
+        try {
+            const profiles = await Profile.find({})
+                .sort({ createdAt: -1 });
+
+            return res.status(200).json({
+                status: 'success',
+                profiles
+            });
+        } catch (error) {
+            console.error('Profile fetch error:', error);
+            return res.status(500).json({
+                status: 'error',
+                message: 'Error fetching profiles'
+            });
+        }
     }
 
     return res.status(405).json({ message: 'Method not allowed' });

@@ -10,6 +10,8 @@ export default function Announcements() {
         expiryDate: ''
     });
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchAnnouncements();
@@ -17,16 +19,31 @@ export default function Announcements() {
 
     const fetchAnnouncements = async () => {
         try {
+            setLoading(true);
             const response = await fetch('/api/announcements');
             const data = await response.json();
-            setAnnouncements(data.announcements);
+            
+            if (data.status === 'success' && Array.isArray(data.announcements)) {
+                setAnnouncements(data.announcements);
+                setError('');
+            } else {
+                console.error('Invalid response format:', data);
+                setError('Failed to fetch announcements');
+                setAnnouncements([]);
+            }
         } catch (error) {
             console.error('Error fetching announcements:', error);
+            setError('Error fetching announcements');
+            setAnnouncements([]);
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage('');
+        setError('');
         try {
             const response = await fetch('/api/announcements', {
                 method: 'POST',
@@ -35,6 +52,7 @@ export default function Announcements() {
                 },
                 body: JSON.stringify(formData),
             });
+            
             const data = await response.json();
             
             if (data.status === 'success') {
@@ -45,12 +63,14 @@ export default function Announcements() {
                     priority: 'normal',
                     expiryDate: ''
                 });
-                fetchAnnouncements();
+                // Fetch updated announcements
+                await fetchAnnouncements();
             } else {
-                setMessage(data.message || 'Error creating announcement');
+                setError(data.message || 'Error creating announcement');
             }
         } catch (error) {
-            setMessage('Error creating announcement');
+            console.error('Error creating announcement:', error);
+            setError('Error creating announcement');
         }
     };
 
@@ -62,7 +82,7 @@ export default function Announcements() {
     };
 
     const getPriorityColor = (priority) => {
-        switch (priority) {
+        switch (priority?.toLowerCase()) {
             case 'high':
                 return 'bg-red-100 text-red-800';
             case 'medium':
@@ -70,6 +90,15 @@ export default function Announcements() {
             default:
                 return 'bg-green-100 text-green-800';
         }
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     };
 
     return (
@@ -84,6 +113,11 @@ export default function Announcements() {
                         {message && (
                             <div className="mb-4 p-4 rounded bg-green-100 text-green-700">
                                 {message}
+                            </div>
+                        )}
+                        {error && (
+                            <div className="mb-4 p-4 rounded bg-red-100 text-red-700">
+                                {error}
                             </div>
                         )}
                         <form onSubmit={handleSubmit}>
@@ -144,27 +178,30 @@ export default function Announcements() {
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <h2 className="text-2xl font-semibold mb-4">Current Announcements</h2>
                         <div className="space-y-4">
-                            {announcements.map((announcement) => (
-                                <div
-                                    key={announcement.id}
-                                    className="border p-4 rounded-lg"
-                                >
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h3 className="font-semibold text-lg">{announcement.title}</h3>
-                                        <span className={`px-2 py-1 rounded text-sm ${getPriorityColor(announcement.priority)}`}>
-                                            {announcement.priority}
-                                        </span>
+                            {loading ? (
+                                <p className="text-gray-500">Loading announcements...</p>
+                            ) : announcements.length > 0 ? (
+                                announcements.map((announcement) => (
+                                    <div
+                                        key={announcement.id}
+                                        className="border p-4 rounded-lg"
+                                    >
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="font-semibold text-lg">{announcement.title}</h3>
+                                            <span className={`px-2 py-1 rounded text-sm ${getPriorityColor(announcement.priority)}`}>
+                                                {announcement.priority}
+                                            </span>
+                                        </div>
+                                        <p className="text-gray-600 mb-2">{announcement.content}</p>
+                                        <div className="text-sm text-gray-500">
+                                            <p>Posted: {formatDate(announcement.createdAt)}</p>
+                                            {announcement.expiryDate && (
+                                                <p>Expires: {formatDate(announcement.expiryDate)}</p>
+                                            )}
+                                        </div>
                                     </div>
-                                    <p className="text-gray-600 mb-2">{announcement.content}</p>
-                                    <div className="text-sm text-gray-500">
-                                        <p>Posted: {new Date(announcement.createdAt).toLocaleDateString()}</p>
-                                        {announcement.expiryDate && (
-                                            <p>Expires: {new Date(announcement.expiryDate).toLocaleDateString()}</p>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                            {announcements.length === 0 && (
+                                ))
+                            ) : (
                                 <p className="text-gray-500">No active announcements.</p>
                             )}
                         </div>

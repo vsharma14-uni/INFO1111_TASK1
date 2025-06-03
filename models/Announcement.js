@@ -3,68 +3,27 @@ import mongoose from 'mongoose';
 const AnnouncementSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, 'Title is required'],
-        trim: true,
+        required: [true, 'Please provide a title'],
+        maxlength: [100, 'Title cannot be more than 100 characters']
     },
     content: {
         type: String,
-        required: [true, 'Content is required'],
-    },
-    category: {
-        type: String,
-        enum: ['general', 'maintenance', 'event', 'emergency', 'notice'],
-        default: 'general',
+        required: [true, 'Please provide content'],
     },
     priority: {
         type: String,
-        enum: ['low', 'medium', 'high', 'urgent'],
-        default: 'low',
+        enum: ['normal', 'medium', 'high'],
+        default: 'normal'
     },
-    publish_date: {
-        type: Date,
-        default: Date.now,
+    expiryDate: {
+        type: Date
     },
-    expiry_date: {
-        type: Date,
-    },
-    author: {
-        type: String,
-        required: [true, 'Author is required'],
-    },
-    attachments: [{
-        filename: String,
-        url: String,
-        type: String,
-    }],
-    target_units: {
-        type: [String],
-        default: [], // Empty array means all units
-    },
-    acknowledgments: [{
-        unit_number: String,
-        date: Date,
-    }],
-    is_active: {
+    active: {
         type: Boolean,
-        default: true,
-    },
-    created_at: {
-        type: Date,
-        default: Date.now,
-    },
-    updated_at: {
-        type: Date,
-        default: Date.now,
-    },
+        default: true
+    }
+}, {
+    timestamps: true
 });
-
-// Update the 'updated_at' field on save
-AnnouncementSchema.pre('save', function(next) {
-    this.updated_at = new Date();
-    next();
-});
-
-// Add index for efficient querying of active announcements
-AnnouncementSchema.index({ is_active: 1, publish_date: -1 });
 
 export default mongoose.models.Announcement || mongoose.model('Announcement', AnnouncementSchema); 
